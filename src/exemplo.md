@@ -13,16 +13,29 @@ A ideia do Bucket Sort é parecida com o comportamento do jogador de Presidente:
 
 Pra simplificar a descrição da ideia, vamos "fingir" que podemos usar lista como em Python:
 
-``` py
-BUCKETS = n listas inicialmente vazias
+``` py 
 
 CARTAS = Uma lista com todos os elementos do vetor
 
-ORDENADO = Uma lista vazia
+BUCKETS = Uma lista vazia com tamanho n (n listas vazias)
 
-Para um indice i de valor de 0 Cartas
+VALOR MÁXIMO =  elemento do vetor CARTAS que tem o valor mais alto
+
+Para i=1 até o tamanho de CARTAS:
+
+    Colocar elemento i de CARTAS em BUCKETS na posição (n * CARTAS no elemento i / VALOR MÁXIMO) 
+
+Para i até n:
+
+    Ordernar a lista BUCKETS na posição i
+
+retornar concatenação de BUCKETS[1],BUCKETS[2],BUCKETS[3],...BUCKETS[n]
 
 ```
+
+Um exemplo do **resultado final do algoritmo** pode ser visto abaixo:
+
+![](bucketresult.png)
 
 Você também pode criar
 
