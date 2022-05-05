@@ -43,7 +43,7 @@ Exemplo
 
 Implementação
 -------------
-Para construir a lógica da ordenação do Bucket Sort, é preciso estabelecer simplificações. A mais importante é que o número de buckets será predefinido, fixo para cada implementação. 
+Para construir a lógica da ordenação do Bucket Sort, é preciso estabelecer simplificações. A mais importante é que o número de buckets será predefinido, fixo para cada implementação. Outra simplificação é a de que o Array ordenado será de inteiros.
 ??? Checkpoint
 
 Com base no que foi dito, qual é a assinatura da função?
@@ -57,6 +57,18 @@ Com base no que foi dito, qual é a assinatura da função?
 Para definir os limites de valores que cada Bucket terá, existem várias estratégias. Uma delas é, a partir do valores mínimos e máximos, calcular o Range a partir do número de buckets. A lógica do Range é parecida com o cálculo de Resolução de conversores analógicos-digitais.
 
 $$r = \frac{Vmax-Vmin}{k}$$
+
+Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os buckets, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.
+
+??? Checkpoint
+
+Quanto será o Range de um Bucket se uma lista vai de 1 a 12 e o código tem 3 Buckets?
+
+::: Gabarito
+Com Valor mínimo de 1 e máximo 
+:::
+
+???
 
 Complexidade
 -------------
