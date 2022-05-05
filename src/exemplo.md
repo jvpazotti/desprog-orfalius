@@ -35,8 +35,6 @@ retornar concatenação de BUCKETS[1],BUCKETS[2],BUCKETS[3],...BUCKETS[n]
 
 Um exemplo do **resultado final do algoritmo** pode ser visto abaixo:
 
-![](bucketresult.png)
-
 Exemplo
 ---------
 :buckets
@@ -283,73 +281,28 @@ Tabela de complexidade
 |Melhor caso   |  $O(n)$ para $k \approx n$|
 | Memória      |        $O(n+k)$           |
 
-Você também pode criar
+Atividade Extra
+-----------------------
 
-1. listas;
+??? Fake Quiz
 
-2. ordenadas,
-
-assim como
-
-* listas;
-
-* não-ordenadas
-
-e imagens. Lembre que todas as imagens devem estar em uma subpasta *img*.
-
-![](buckets.png)
-
-Para tabelas, usa-se a [notação do
-MultiMarkdown](https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html),
-que é muito flexível. Vale a pena abrir esse link para saber todas as
-possibilidades.
-
-| coluna a | coluna b |
-|----------|----------|
-| 1        | 2        |
-
-Ao longo de um texto, você pode usar *itálico*, **negrito**, {red}(vermelho) e
-[[tecla]]. Também pode usar uma equação LaTeX: $f(n) \leq g(n)$. Se for muito
-grande, você pode isolá-la em um parágrafo.
-
-$$\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1$$
-
-Para inserir uma animação, use `md :` seguido do nome de uma pasta onde as
-imagens estão. Essa pasta também deve estar em *img*.
-
-:bubble
-
-Você também pode inserir código, inclusive especificando a linguagem.
-
-``` py
-def f():
-    print('hello world')
+Considere o vetor abaixo.
+```py
+array = [13,2,23,78,65,99,42,0,55]
 ```
-
-``` c
-void f() {
-    printf("hello world\n");
-}
-```
-
-Se não especificar nenhuma, o código fica com colorização de terminal.
-
-```
-hello world
-```
-
-
-!!! Aviso
-Este é um exemplo de aviso, entre `md !!!`.
-!!!
-
-
-??? Exercício
-
-Este é um exemplo de exercício, entre `md ???`.
-
+Simule o comportamento da lista `py buckets` ao fim de cada iteração. Ou seja, cada elemento sendo atribuído ao *bucket* certo.
 ::: Gabarito
-Este é um exemplo de gabarito, entre `md :::`.
+```     
+[[13], [], [], []]
+[[13, 2], [], [], []]
+[[13, 2, 23], [], [], []]
+[[13, 2, 23], [], [], [78]]
+[[13, 2, 23], [], [65], [78]]
+[[13, 2, 23], [], [65], [78, 99]]
+[[13, 2, 23], [42], [65], [78, 99]]
+[[13, 2, 23, 0], [42], [65], [78, 99]]
+[[13, 2, 23, 0], [42], [65, 55], [78, 99]]
+```
 :::
 
 ???
