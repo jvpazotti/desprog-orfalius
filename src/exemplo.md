@@ -248,10 +248,10 @@ Complexidade
 
 * Pior caso:
 
-Como foi dito anteriormente, o *Bucket Sort* é especialmente útil quando temos um vetor a ser ordenado distribúido de maneira uniforme.
+Como foi dito anteriormente, o *Bucket Sort* é especialmente útil quando temos um vetor a ser ordenado distribuído de maneira uniforme.
 Portanto, o caso de pior performance de algoritmo seria quando temos todos os elementos em apenas um *bucket*. 
 
-Nesse cenário, a complexidade será determinada pelo algoritmo de ordenação interno ao *bucket sort*, que será $O(n^2)$ considerando o uso do *insertion sort*. Além disso, circunstâncias nas quais temos grande discrepância entre a quantidade de elementos dentro de cada *bucket* também não são ideais. Quanto maior essa diferença, os benefícios e qualidades do *bucket sort* se esmaecem, enquanto as deficiências do algoritmo interno são exarcebadas, pois o segundo não é indicado para vetores grandes.
+Nesse cenário, a complexidade será determinada pelo algoritmo de ordenação interno ao *bucket sort*, que será $O(n^2)$ considerando o uso do *insertion sort*. Além disso, circunstâncias nas quais temos grande discrepância entre a quantidade de elementos dentro de cada *bucket* também não são ideais. Quanto maior essa diferença, os benefícios e qualidades do *bucket sort* se esmaecem, enquanto as deficiências do algoritmo interno são exacerbadas, pois o segundo não é indicado para vetores grandes.
 
 * Caso médio:
 
