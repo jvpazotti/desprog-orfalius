@@ -1,12 +1,12 @@
 Bucket Sort
 ======
 
-A ideia
+O problema
 ---------
 
-Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Como Presidente depende da hierarquia das cartas (por exemplo, 2 é a maior e 3 a pior), é normal que cada jogador coloque as suas cartas em ordem crescente antes que o jogo comece, para entender melhor como está sua mão. O comportamento de um participante é separar entre cartas ruins, medianas e boas. 
+Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho),Espadas (parece uma seta gordinha) ,Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica** e acaba deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar. 
 
-O que define cada categoria é um intervalo das piores até as maiores. Para o Presidente, da carta 3 à 7 o jogador colocaria num monte de cartas ruins, 8 à Q seriam cartas medianas e J ao 2, cartas boas. Após separar em cada grupo, o jogador coloca as cartas de cada grupo em ordem entre elas e, depois, junta os grupos. Se ele colocar primeiros as piores cartas, depois as medianas e, por fim, as melhores, é garantido que a mão dele estará ordenada da pior para a melhor.
+O que define cada categoria é primeiro o valor de cada Naipe e depois a sequencia das cartas . Para o Presidente, da carta 3 à 7 o jogador colocaria num monte de cartas ruins, 8 à Q seriam cartas medianas e J ao 2, cartas boas. Após separar em cada grupo, o jogador coloca as cartas de cada grupo em ordem entre elas e, depois, junta os grupos. Se ele colocar primeiros as piores cartas, depois as medianas e, por fim, as melhores, é garantido que a mão dele estará ordenada da pior para a melhor.
 
 A ideia do *Bucket* Sort é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
 
@@ -246,10 +246,16 @@ def bucket_sort(array, k):
 Complexidade
 -------------
 
+De forma sucinta, o algortimo do *bucket sort* em questão pode ser subdividido em 3 tarefas. Com um vetor de *n* elementos temos que:
+    1. Subdividir o vetor original em *k* *buckets*, sendo a quantidade de elementos em cada bucket igual a $(\frac{n}{k})$
+    2. Ordenar os valores no interior de cada *bucket* utilizando *insertion sort*.
+    3. Concatenar os buckets já ordenados em um vetor.
+A partir do custo, ou seja, da complexidade de cada uma dessas estapas, podemos determinar a complexidade total do *bucket sort*. Vamos começar analisando o caso médio, para então analisar-mos casos específicos.
+
 * Pior caso:
 
 Como foi dito anteriormente, o *Bucket Sort* é especialmente útil quando temos um vetor a ser ordenado distribuído de maneira uniforme.
-Portanto, o caso de pior performance de algoritmo seria quando temos todos os elementos em apenas um *bucket*. 
+Portanto, o caso de pior performance de algoritmo seria quando temos o todos os elementos em apenas um *bucket*. 
 
 Nesse cenário, a complexidade será determinada pelo algoritmo de ordenação interno ao *bucket sort*, que será $O(n^2)$ considerando o uso do *insertion sort*. Além disso, circunstâncias nas quais temos grande discrepância entre a quantidade de elementos dentro de cada *bucket* também não são ideais. Quanto maior essa diferença, os benefícios e qualidades do *bucket sort* se esmaecem, enquanto as deficiências do algoritmo interno são exacerbadas, pois o segundo não é indicado para vetores grandes.
 
