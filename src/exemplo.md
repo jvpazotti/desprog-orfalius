@@ -4,9 +4,20 @@ Bucket Sort
 O problema
 ---------
 
-Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho),Espadas (parece uma seta gordinha) ,Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica** e acaba deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar. 
+Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho),Espadas (parece uma seta gordinha) ,Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica**, no entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar.  
 
-O que define cada categoria é primeiro o valor de cada Naipe e depois a sequencia das cartas . Para o Presidente, da carta 3 à 7 o jogador colocaria num monte de cartas ruins, 8 à Q seriam cartas medianas e J ao 2, cartas boas. Após separar em cada grupo, o jogador coloca as cartas de cada grupo em ordem entre elas e, depois, junta os grupos. Se ele colocar primeiros as piores cartas, depois as medianas e, por fim, as melhores, é garantido que a mão dele estará ordenada da pior para a melhor.
+??? Checkpoint
+
+Sabendo do que foi dito acima, qual voce acha que seria a forma ideal de um jogador ordenar suas cartas?
+
+::: Gabarito
+O jeito ideal de ordená-las seria primeiro ordenar de forma crescente os **Naipes** e depois ordernar as cartas pela **ordem numérica** do jogo em cada Naipe.
+:::
+
+???
+
+Pode parecer não intuitivo pensar dessa forma, mas pense que as vezes ao jogar dessa forma faz 
+com que os possíveis erros ao jogar diminuam de forma considerável.
 
 A ideia do *Bucket* Sort é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
 
