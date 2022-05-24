@@ -104,60 +104,22 @@ for i in range(k):
 
 ???
 
-Agora, é preciso iterar nos Buckets e nos elementos, a fim de alocar cada elemento no *Bucket* certo. Para fazer a implementação da verificação do Range é preciso formular uma que é verdadeira para todos os buckets. Sabendo que existe um índice i que é um contador de buckets, imagine a situação a seguir:
-
-```py
-                                R=4
-                            
-    B0                          B1                          B2
-i=0                         i=1                         i=2
-Range = 0 a 3               Range = 4 a 7               Range = 8 a 11
-```
+Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não, a partir de seu índice. No entanto, esse processo teria um *for* dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada buckets com apenas uma iteração.
 
 ??? Checkpoint
 
-A partir de i e R, formule a condição que define o valor mínimo do *Bucket*.
+Qual iteração e estratégia parece fazer sentido nesse caso?
 
 ::: Gabarito
-Se `py e` é o elemento sendo verificado:
-``` py     
-e >= i*r
-```
-Para o B1, e >= 0*4
-
-Para o B2, e >= 1*4 
-
-Para o B3, e >= 2*4
+Já que todos os elementos devem ser distribuídos, fica claro que uma interação no array é necessário. A estratégia ideal é: a partir do valor do elemento, descobrir o índice do bucket que ele deve ser inserido e dar *append*.
 :::
 
 ???
 
-??? Checkpoint
+O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do range ajuda a definir esse cálculo pois ele define o "tamanho" de cada bucket. Ao dividir o valor do elemento pelo range, o resultado é, basicamente, quantos ranges cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.
 
-A partir de i e R, formule a condição que define o valor máximo do *Bucket*.
+:range
 
-::: Gabarito
-Se `py e` é o elemento sendo verificado:
-``` py     
-e < (i+1)*r
-```
-Para o B1, e < 1*4
-
-Para o B2, e < 2*4 
-
-Para o B3, e < 3*4
-:::
-
-???
-
-Sabendo disso, é possível implementar o código que aloca cada elemento no *bucket* certo.
-```py
- for i,b in enumerate(buckets):
-        for e in array:
-            if e>=i*r and e<(i+1)*r:
-                b.append(e)
-                break
-```
 
 A lista `py buckets` agora possui k listas com os elementos da lista alocados. Basta iterar entre cada *bucket*, ordenar cada um e concatenar os buckets.
 
