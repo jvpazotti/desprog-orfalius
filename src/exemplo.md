@@ -120,6 +120,21 @@ O problema agora é descobrir o índice do bucket a partir do elemento. Nesse co
 
 :range
 
+Considerando o exemplo acima, a divisão daria um valor aproximado de 1,6. O índice do bucket do V deve ser 1, pois ele deve estar no segundo bucket. Dessa forma, basta arredondar para baixo o valor da divisão.
+
+??? Checkpoint
+
+Faça a implementação em python da distribuição dos elementos nos buckets.
+
+::: Gabarito
+``` py     
+for v in array:
+    indice=floor((v-minimum)/r)
+    buckets[indice].append(v)
+```
+:::
+
+???
 
 A lista `py buckets` agora possui k listas com os elementos da lista alocados. Basta iterar entre cada *bucket*, ordenar cada um e concatenar os buckets.
 
@@ -139,21 +154,19 @@ def bucket_sort(array, k):
     for i in range(k):
         buckets.append([])
 
-    for i,b in enumerate(buckets):
-        for e in array:
-            if e>=i*r and e<(i+1)*r:
-                b.append(e)
-                break
-
+    for v in array:
+        indice=floor((v-minimum)/r)
+        buckets[indice].append(v)
+    
     s=[]
     for b in buckets:
         s.append(sorted(b))
-    
-    final_list=[]
-    for b in s:
-        final_list+=b
 
-    return final_list
+    lista_final=[]
+    for i in s:
+        lista_final+=i
+
+    return lista_final
 ```
 :::
 
@@ -161,7 +174,7 @@ def bucket_sort(array, k):
 
 No papel, parece estar funcionando corretamente. No entanto, imagine que o usuário está ordenando com 3 *buckets*, Vmax=13 e Vmin=1. Nesse caso, com a conta do Range dando 4, o último *bucket* irá cobrir de 8 a 11. É necessário um último *bucket* para cobrir o elemento 13, principalmente pela aproximação pra cima que foi feita na conta do Range.
 
-O jeito mais fácil de fazer isso é fazer uma verificação se o elemento foi adicionado em algum *bucket* ou não, ou seja, se o elemento passou pelo `py if e>=i*r and e<(i+1)*r`. Se ele não passar nenhuma vez em todas as iterações de *Bucket*, será necessário criar um *Bucket* depois de todos os outros, para alocar essas exceções.
+O jeito mais fácil de fazer isso é fazer uma verificação do valor do índice dentro da iteração. Se o índice passa o tamanho da lista, será necessário criar um Bucket depois de todos os outros, para alocar essas exceções.
 
 ??? Checkpoint
 
@@ -169,15 +182,12 @@ Tente implementar essa correção descrita acima na iteração dos elementos.
 
 ::: Gabarito
 ``` py     
-for e in array:
-    adicionou=False
-    for i,b in enumerate(buckets):
-        if e>=i*r and e<(i+1)*r:
-            adicionou=True
-            b.append(e)
-            break
-    if not adicionou:
-        buckets.append([e])
+for v in array:
+    indice=floor((v-minimum)/r)
+    if indice==len(buckets):
+        buckets.append([v])
+    else:
+        buckets[indice].append(v)
 ```
 :::
 
@@ -195,25 +205,22 @@ def bucket_sort(array, k):
     for i in range(k):
         buckets.append([])
 
-    for e in array:
-        adicionou=False
-        for i,b in enumerate(buckets):
-            if e>=i*r and e<(i+1)*r:
-                adicionou=True
-                b.append(e)
-                break
-        if not adicionou:
-            buckets.append([e])
-
+    for v in array:
+        indice=floor((v-minimum)/r)
+        if indice==len(buckets):
+            buckets.append([v])
+        else:
+            buckets[indice].append(v)
+    
     s=[]
     for b in buckets:
         s.append(sorted(b))
 
-    final_list=[]
-    for b in s:
-        final_list+=b
+    lista_final=[]
+    for i in s:
+        lista_final+=i
 
-    return final_list
+    return lista_final
 ```
 
 Complexidade
@@ -269,7 +276,7 @@ Considere o vetor abaixo.
 ```py
 array = [13,2,23,78,65,99,42,0,55]
 ```
-Simule o comportamento da lista `py buckets` ao fim de cada iteração. Ou seja, cada elemento sendo atribuído ao *bucket* certo.
+Simule o comportamento da lista `py buckets` ao fim de cada iteração sabendo que k=4.
 ::: Gabarito
 ```     
 [[13], [], [], []]
