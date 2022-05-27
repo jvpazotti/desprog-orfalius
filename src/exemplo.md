@@ -324,44 +324,6 @@ Tabela de complexidade
 | Memória      |        $O(n+k)$           |
 
 
-<!-- Alteracoes anteriores -->
-
-* Pior caso:
-
-Como foi dito anteriormente, o *Bucket Sort* é especialmente útil quando temos um vetor a ser ordenado distribuído de maneira uniforme.
-Portanto, o caso de pior performance de algoritmo seria quando temos o todos os elementos em apenas um *bucket*. 
-
-Nesse cenário, a complexidade será determinada pelo algoritmo de ordenação interno ao *bucket sort*, sendo nessa aplicação o *insertion sort*. Além disso, circunstâncias nas quais temos grande discrepância entre a quantidade de elementos dentro de cada *bucket* também não são ideais. Quanto maior essa diferença, os benefícios e qualidades do *bucket sort* se esmaecem, enquanto as deficiências do algoritmo interno são exacerbadas, pois o segundo não é indicado para vetores grandes.
-
-
-
-* Caso médio:
-
-Como o *bucket sort* deve principalmente ser usado com distribuições uniformes, consideraremos uma array distribuído de tal maneira para determinar a complexidade de seu caso médio.  
-
-Primeiramente, o algoritmo deve varrer o array completamente, para determinar o maior valor em seu interior e assim configurar o *range* dos *buckets*. Portanto, o tempo de processamento será diretamente proporcional ao tamanho desse array, sendo a complexidade $O(n)$.
-
-Partindo do pressuposto que utilizaremos o *insertion sort* como algoritmo interno do *bucket sort*, temos que o caso médio do *insertion* tem complexidade $O(n^2)$. 
-
-Denominando *k* a quantidade de *buckets* utilizada no algoritmo, temos que a quantidade de elementos a serem ordenados pelo *insertion* em cada *bucket* será $O(\frac{n}{k})^2$. Como temos *k* buckets para rodar o *insertion sort*, a complexidade será de $O(\frac{n^2}{k^2} \cdot k)$, que será igual a $O(\frac{n^2}{k})$. 
-
-Com cada *bucket* ordenado, resta apenas concatená-los na ordem correta. Isso ocorrerá em tempo proporcional ao número de *buckets*, tendo complexidade $O(k)$. Assim, teremos que a complexidade final do algoritmo será:
-
-$$O(n + \frac{n^2}{k} + k)$$ 
-
-* Melhor caso:
-
-Pode-se deduzir a complexidade do melhor caso a partir da complexidade do caso médio, considerando também uma entrada uniformemente distribuída. O melhor caso pode ser percebido quando temos um algoritmo mais flexível e avançado, no qual o número de *buckets* cresce proporcionalmente com um aumento no número de elementos do vetor. Se o número *k* de buckets for muito próximo a *n*, temos que a relação $\frac{n}{k}^2$ será $\frac{n^2}{n}$. Nessas circunstâncias, temos que a complexidade do algoritmo será $O(n)$, sendo este o caso de uso mais apropriado para o *bucket sort*.
-
-Tabela de complexidade
------------------------
-
-|              |        Complexidade       |
-|--------------|---------------------------|
-| Pior caso    | $O(n^2)$                  |
-|Caso médio    |$O(n + \frac{n^2}{k} + k)$ |
-|Melhor caso   |  $O(n)$ para $k \approx n$|
-| Memória      |        $O(n+k)$           |
 
 Atividade Extra
 -----------------------
