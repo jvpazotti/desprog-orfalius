@@ -4,7 +4,7 @@ Bucket Sort
 O problema
 ---------
 
-Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho),Espadas (parece uma seta gordinha) ,Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica**, no entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar.  
+Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho), Espadas (parece uma seta gordinha), Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica**. No entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar.  
 
 ??? Checkpoint
 
@@ -16,10 +16,9 @@ O jeito ideal de ordená-las seria primeiro ordenar de forma crescente os **Naip
 
 ???
 
-Pode parecer não intuitivo pensar dessa forma, mas pense que as vezes ao jogar dessa forma faz 
-com que os possíveis erros ao jogar diminuam de forma considerável.
+Pode parecer não intuitivo pensar dessa forma, mas provavelmente você faz isso de forma inconsciente. Como a ordem dos naipes não é tão natural como a ordem numérica, é um pouco contraintuitivo tentar ordenar as cartas tanto por naipe quanto por número ao mesmo tempo. Se você fizer isso, perdará mais tempo procurando o lugar correto da carta e, no pior caso, terá que percorrer todas as cartas para achar o local correto. Assim, é muito mais fácil e natural para o cerébro humano ordenar primeiro por um critério, depois por outro. Por isso, muitas vezes separamos as cartas primeiro por naipe, para então ordenar cada naipe na ordem de valor numérico.
 
-A ideia do *Bucket* Sort é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
+Analogamente, a ideia do *Bucket* Sort é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
 
 
 Pra simplificar a descrição da ideia, vamos "fingir" que podemos usar lista como em Python:
@@ -34,7 +33,8 @@ VALOR MÁXIMO =  elemento do vetor CARTAS que tem o valor mais alto
 
 Para i=1 até o tamanho da lista CARTAS:
 
-    Colocar elemento i da lista CARTAS na lista BUCKETS na posição (n * lista CARTAS no elemento i / VALOR MÁXIMO) 
+    Colocar elemento i da lista CARTAS na lista BUCKETS na posição 
+    (n * lista CARTAS no elemento i / VALOR MÁXIMO) 
 
 Para i até n:
 
@@ -44,7 +44,7 @@ retornar concatenação de BUCKETS[1],BUCKETS[2],BUCKETS[3],...BUCKETS[n]
 
 ```
 
-Um exemplo do **resultado final do algoritmo** pode ser visto abaixo:
+Um exemplo de ordenação com inteiros do **resultado final do algoritmo** pode ser visto abaixo:
 
 Exemplo
 ---------
@@ -104,7 +104,7 @@ for i in range(k):
 
 ???
 
-Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não, a partir de seu índice. No entanto, esse processo teria um *for* dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada buckets com apenas uma iteração.
+Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não a partir de seu índice. No entanto, esse processo teria um *for* dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada buckets com apenas uma iteração.
 
 ??? Checkpoint
 
@@ -116,7 +116,7 @@ Já que todos os elementos devem ser distribuídos, fica claro que uma interaç�
 
 ???
 
-O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do range ajuda a definir esse cálculo pois ele define o "tamanho" de cada bucket. Ao dividir o valor do elemento pelo range, o resultado é, basicamente, quantos ranges cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.
+O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do *range* ajuda a definir esse cálculo pois ele define o "tamanho" de cada bucket. Ao dividir o valor do elemento pelo *range*, o resultado é, basicamente, quantos *ranges* cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.
 
 :range
 
@@ -140,7 +140,7 @@ A lista `py buckets` agora possui k listas com os elementos da lista alocados. B
 
 ??? Checkpoint
 
-Implemente o *Bucket Sort* em Python
+Implemente o *Bucket Sort* em Python. Não é necessário se preocupar com a ordenação interna dos buckets, foque nas operações discutidas acima. Para representar a ordenação interna, pode usar a função *sort()*, nativa do python.
 
 ::: Gabarito
 ``` py     
@@ -160,7 +160,8 @@ def bucket_sort(array, k):
     
     s=[]
     for b in buckets:
-        s.append(sorted(b))
+        s.append(sorted(b))  #Note que a ordenação dentro do bucket é feito pelo
+                             #insertion sort, mas isso será discutido em breve.
 
     lista_final=[]
     for i in s:
@@ -292,7 +293,7 @@ $$O(\frac{n^2}{k})$$
 
 Vamos fazer alguns experimentos com a complexidade acima...
 
-Sendo *k* o número de *buckets* e *n* o número total de elementos do vetor original, vamos supor que em uma implementação do algoritmo optemos por colocar todos os elementos em apenas um *bucket*. Nesse caso, *k* será igual a 1, fazendo com que a complexidade resultante seja $O(n^2)$. Esse é exatamente o **pior caso** do *bucket sort*. Quanto temos um ou poucos *bcukets*, teremos mais elementos por *bucket* para o *insertion* ordenar, o que não é desejável e eficiente.
+Sendo *k* o número de *buckets* e *n* o número total de elementos do vetor original, vamos supor que em uma implementação do algoritmo optemos por colocar todos os elementos em apenas um *bucket*. Nesse caso, *k* será igual a 1, fazendo com que a complexidade resultante seja $O(n^2)$. Esse é exatamente o **pior caso** do *bucket sort*. Quanto temos um ou poucos *buckets*, teremos mais elementos por *bucket* para o *insertion* ordenar, o que não é desejável e eficiente.
 
 Vamos tentar algo diferente...
 
