@@ -4,7 +4,9 @@ Bucket Sort
 O problema
 ---------
 
-Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho), Espadas (parece uma seta gordinha), Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica**. No entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar.  
+Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho), Espadas (parece uma seta gordinha), Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de **Forma Numérica**. No entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar. 
+
+Pode parecer não intuitivo organizar os Naipes antes dos valores numéricos das cartas, mas provavelmente você faz isso de forma inconsciente. Como a ordem dos naipes não é tão natural como a ordem numérica, é um pouco contraintuitivo tentar ordenar as cartas tanto por naipe quanto por número ao mesmo tempo. Se você fizer isso, perdará mais tempo procurando o lugar correto da carta e, no pior caso, terá que percorrer todas as cartas para achar o local correto. Assim, é muito mais fácil e natural para o cerébro humano ordenar primeiro por um critério, depois por outro.
 
 ??? Checkpoint
 
@@ -16,31 +18,26 @@ O jeito ideal de ordená-las seria primeiro ordenar de forma crescente os **Naip
 
 ???
 
-Pode parecer não intuitivo pensar dessa forma, mas provavelmente você faz isso de forma inconsciente. Como a ordem dos naipes não é tão natural como a ordem numérica, é um pouco contraintuitivo tentar ordenar as cartas tanto por naipe quanto por número ao mesmo tempo. Se você fizer isso, perdará mais tempo procurando o lugar correto da carta e, no pior caso, terá que percorrer todas as cartas para achar o local correto. Assim, é muito mais fácil e natural para o cerébro humano ordenar primeiro por um critério, depois por outro. Por isso, muitas vezes separamos as cartas primeiro por naipe, para então ordenar cada naipe na ordem de valor numérico.
-
-Analogamente, a ideia do *Bucket* Sort é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
+Analogamente, a ideia do *Bucket Sort* é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários "grupos" com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.
 
 
-Pra simplificar a descrição da ideia, vamos "fingir" que podemos usar lista como em Python:
-
+Pra simplificar a descrição da ideia, segue abaixo a lógica por trás do algoritmo:
 ``` py 
 
-CARTAS = Uma lista com todos os elementos do vetor
+CARTAS = O conjunto de cartas do baralho
 
-BUCKETS = Uma lista vazia com tamanho n (n listas vazias)
+NAIPES(BUCKETS) = Intervalos de valores para separar e organizar cartas
 
-VALOR MÁXIMO =  elemento do vetor CARTAS que tem o valor mais alto
+VALOR MÁXIMO =  A carta cujo valor no jogo é o maior, ou seja, a carta mais forte do jogo
 
-Para i=1 até o tamanho da lista CARTAS:
+Enquanto percorrer o conjunto CARTAS, alocar cada carta individualmente em um dos NAIPES
+se ela apresentar o mesmo.
 
-    Colocar elemento i da lista CARTAS na lista BUCKETS na posição 
-    (n * lista CARTAS no elemento i / VALOR MÁXIMO) 
+Todos os NAIPES estarão com as cartas de tipo correto, entretanto, estarão fora de ordem. 
+Logo, em cada NAIPE deverá ser feito uma ordenação para deixar as cartas em ordem crescente.
 
-Para i até n:
-
-    Ordernar a lista BUCKETS na posição i
-
-retornar concatenação de BUCKETS[1],BUCKETS[2],BUCKETS[3],...BUCKETS[n]
+Após ordenar todos os NAIPES, montar sua sequência de cartas 
+deixando os NAIPES de forma crescente. 
 
 ```
 
