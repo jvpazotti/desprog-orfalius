@@ -50,21 +50,46 @@ Exemplo
 Implementação
 -------------
 Para construir a lógica da ordenação do *Bucket* Sort, é preciso estabelecer simplificações. A mais importante é que o número de buckets será predefinido, fixo para cada implementação. Outra simplificação é a de que o Array ordenado será de inteiros.
+
+Para definir os limites de valores que cada *Bucket* terá existem várias estratégias. Sabendo que o programa terá todos os valores do array, assim como a quantidade de buckets, é possível pensar num cálculo de limites de um *bucket*. 
+
+Pensando num valor inteiro, é possível saber quantas unidades cabem em cada *bucket* apenas dividindo o valor pela quantidade de *buckets*. Por exemplo, se o valor é 10 e existem 5 buckets, 2 unidades vão para cada *bucket*. 
+
 ??? Checkpoint
 
-Com base no que foi dito, qual é a assinatura da função?
+Se o vetor começa em 0, o que pode ser considerado o valor a ser dividido pelo número de buckets?
 
 ::: Gabarito
-`py def bucket_sort(array, k)`, sendo que k é o número de Buckets.
+O valor máximo do vetor corresponde ao inteiro que, ao ser dividido, resultará em quantos valores vão em apenas um *bucket*.
 :::
 
 ???
 
-Para definir os limites de valores que cada *Bucket* terá existem várias estratégias. Uma delas é, a partir do valores mínimos e máximos, calcular o Range com o número de buckets. A lógica do Range é parecida com o cálculo de Resolução de conversores analógicos-digitais.
+No entanto, um vetor a ser ordenado não necessariamente começa de 0 e, por isso, o cálculo do Range estará equivocado.
 
+??? Checkpoint
+
+Sabendo que um vetor começa em -5 e acaba em 13, qual o módulo do tamanho do vetor? E se começar em 2 e ir até 13?
+
+::: Gabarito
+Indo de -5 a 13, o vetor corresponde a 18 unidades. De 2 a 13, são 11 unidades.
+:::
+
+???
+
+Dessa forma, para englobar tanto valores negativos como vetores que começam após o 0, não basta utilizar apenas o valor máximo do vetor, mas também o mínimo.
+
+??? Checkpoint
+
+Utilizando a estratégia já citada, qual seria uma fórmula para calcular quantas unidades cabem em cada *bucket*?
+
+::: Gabarito
 $$r = \frac{Vmax-Vmin}{k}$$
+:::
 
-Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os buckets, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.
+???
+
+Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os *buckets*, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.
 
 ??? Checkpoint
 
@@ -101,7 +126,7 @@ for i in range(k):
 
 ???
 
-Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não a partir de seu índice. No entanto, esse processo teria um *for* dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada buckets com apenas uma iteração.
+Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não a partir de seu índice. No entanto, esse processo teria um *for* dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada *bucket* com apenas uma iteração.
 
 ??? Checkpoint
 
@@ -113,7 +138,19 @@ Já que todos os elementos devem ser distribuídos, fica claro que uma interaç�
 
 ???
 
-O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do *range* ajuda a definir esse cálculo pois ele define o "tamanho" de cada bucket. Ao dividir o valor do elemento pelo *range*, o resultado é, basicamente, quantos *ranges* cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.
+O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do *range* ajuda a definir esse cálculo pois ele define o "tamanho" de cada bucket.
+
+??? Checkpoint
+
+Sabendo que o índice do *bucket* é como uma contagem, que operação com o *range* faria sentido nesse caso?
+
+::: Gabarito
+Ao dividir o valor do elemento pelo *range*, o resultado é, basicamente, quantos *ranges* cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.
+:::
+
+???
+
+Abaixo segue a explicação visual do cálculo do índice:
 
 :range
 
@@ -133,7 +170,7 @@ for v in array:
 
 ???
 
-A lista `py buckets` agora possui k listas com os elementos da lista alocados. Basta iterar entre cada *bucket*, ordenar cada um e concatenar os buckets.
+A lista `py buckets` agora possui k listas com os elementos da lista alocados. Basta iterar entre cada *bucket*, ordenar cada um e concatenar os *buckets*.
 
 ??? Checkpoint
 
