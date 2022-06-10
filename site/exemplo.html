@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Bucket Sort</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans+Condensed:ital,wght@0,300;1,300&family=Open+Sans:ital,wght@0,300;0,400;0,700;0,800;1,300;1,400;1,700;1,800&family=Oxygen+Mono&family=Josefin+Sans:ital,wght@0,200;0,600;1,200;1,600&display=swap">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/highlight.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/color.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+        <script src="assets/js/highlight.js"></script>
+        <script src="assets/js/script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <a href="">abrir tudo</a>
+                <a href="">fechar tudo</a>
+            </header>
+            <main>
+
+<h1>Bucket Sort</h1>
+<h2>O problema</h2>
+<p>Imagine que você vai jogar Presidente. Na distribuição de cartas, a regra é que todos os jogadores recebam cartas até que o baralho acabe. Assim como qualquer outro jogo de carta, Presidente possui um hierarquia de naipes, seguindo a ordem crescente de Ouros (losango vermelho), Espadas (parece uma seta gordinha), Copas (coração) e Paus (parece uma árvore), e é normal que cada jogador coloque as suas cartas em ordem crescente de <strong>Forma Numérica</strong>. No entanto, em jogos de carta o padrão é que os Naipes possuam um valor agregado maior do que os de números. O problema é que muitos jogadores acabam deixando os valores dos Naipes de lado no momento de organização das cartas antes do jogo começar.</p>
+<p>Pode parecer não intuitivo organizar os Naipes antes dos valores numéricos das cartas, mas provavelmente você faz isso de forma inconsciente. Como a ordem dos naipes não é tão natural como a ordem numérica, é um pouco contraintuitivo tentar ordenar as cartas tanto por naipe quanto por número ao mesmo tempo. Se você fizer isso, perdará mais tempo procurando o lugar correto da carta e, no pior caso, terá que percorrer todas as cartas para achar o local correto. Assim, é muito mais fácil e natural para o cerébro humano ordenar primeiro por um critério, depois por outro.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Sabendo do que foi dito acima, qual voce acha que seria a forma ideal de um jogador ordenar suas cartas?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>O jeito ideal de ordená-las seria primeiro ordenar de forma crescente os <strong>Naipes</strong> e depois ordernar as cartas pela <strong>ordem numérica</strong> do jogo em cada Naipe.</p>
+</details>
+</blockquote>
+<p>Analogamente, a ideia do <em>Bucket Sort</em> é parecida com o comportamento do jogador de Presidente: recebe uma amostra desordenada, divide ela em vários “grupos” com intervalos específicos, ordena cada grupo e junta todos os grupos, do intervalo com os menores valores ao intervalo com os maiores.</p>
+<p>Pra simplificar a descrição da ideia, segue abaixo a lógica por trás do algoritmo:</p>
+<pre><code class="language-py">
+CARTAS = O conjunto de cartas do baralho
+
+NAIPES(BUCKETS) = Intervalos de valores para separar e organizar cartas
+
+VALOR MÁXIMO =  A carta cujo valor no jogo é o maior, ou seja, a carta mais forte do jogo
+
+Enquanto percorrer o conjunto CARTAS, alocar cada carta individualmente em um dos NAIPES
+se ela apresentar o mesmo.
+
+Todos os NAIPES estarão com as cartas de tipo correto, entretanto, estarão fora de ordem. 
+Logo, em cada NAIPE deverá ser feito uma ordenação para deixar as cartas em ordem crescente.
+
+Após ordenar todos os NAIPES, montar sua sequência de cartas 
+deixando os NAIPES de forma crescente. 
+
+</code></pre>
+<p>Um exemplo de ordenação com inteiros do <strong>resultado final do algoritmo</strong> pode ser visto abaixo:</p>
+<h2>Exemplo</h2>
+<div class="animation"><img class="frame" src="img/buckets/Slide01.png" alt="1"><img class="frame" src="img/buckets/Slide02.png" alt="2"><img class="frame" src="img/buckets/Slide03.png" alt="3"><img class="frame" src="img/buckets/Slide04.png" alt="4"><img class="frame" src="img/buckets/Slide05.png" alt="5"><img class="frame" src="img/buckets/Slide06.png" alt="6"><img class="frame" src="img/buckets/Slide07.png" alt="7"><img class="frame" src="img/buckets/Slide08.png" alt="8"><img class="frame" src="img/buckets/Slide09.png" alt="9"><img class="frame" src="img/buckets/Slide10.png" alt="10"><img class="frame" src="img/buckets/Slide11.png" alt="11"><img class="frame" src="img/buckets/Slide12.png" alt="12"><img class="frame" src="img/buckets/Slide13.png" alt="13"></div>
+<h2>Implementação</h2>
+<p>Para construir a lógica da ordenação do <em>Bucket</em> Sort, é preciso estabelecer simplificações. A mais importante é que o número de buckets será predefinido, fixo para cada implementação. Outra simplificação é a de que o Array ordenado será de inteiros.</p>
+<p>Para definir os limites de valores que cada <em>Bucket</em> terá existem várias estratégias. Sabendo que o programa terá todos os valores do array, assim como a quantidade de buckets, é possível pensar num cálculo de limites de um <em>bucket</em>.</p>
+<p>Pensando num valor inteiro, é possível saber quantas unidades cabem em cada <em>bucket</em> apenas dividindo o valor pela quantidade de <em>buckets</em>. Por exemplo, se o valor é 10 e existem 5 buckets, 2 unidades vão para cada <em>bucket</em>.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Se o vetor começa em 0, o que pode ser considerado o valor a ser dividido pelo número de buckets?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>O valor máximo do vetor corresponde ao inteiro que, ao ser dividido, resultará em quantos valores vão em apenas um <em>bucket</em>.</p>
+</details>
+</blockquote>
+<p>No entanto, um vetor a ser ordenado não necessariamente começa de 0 e, por isso, o cálculo do Range estará equivocado.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Sabendo que um vetor começa em -5 e acaba em 13, qual o módulo do tamanho do vetor? E se começar em 2 e ir até 13?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Indo de -5 a 13, o vetor corresponde a 18 unidades. De 2 a 13, são 11 unidades.</p>
+</details>
+</blockquote>
+<p>Dessa forma, para englobar tanto valores negativos como vetores que começam após o 0, não basta utilizar apenas o valor máximo do vetor, mas também o mínimo.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Utilizando a estratégia já citada, qual seria uma fórmula para calcular quantas unidades cabem em cada <em>bucket</em>?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>\[r = \frac{Vmax-Vmin}{k}\]</p>
+</details>
+</blockquote>
+<p>Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os <em>buckets</em>, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Quanto será o Range de um <em>Bucket</em> se uma lista vai de 1 a 12 e o código tem 3 Buckets?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Com valor mínimo de 1 e máximo de 12, o Range é aproximadamente 3.67. Arredondando pra cima, cada <em>bucket</em> terá range de 4. Ou seja, primeiro <em>bucket</em> de 0 a 3, o segundo de 4 a 7 e o terceiro de 8 a 11.</p>
+</details>
+</blockquote>
+<p>Resumindo:</p>
+<pre><code class="language-py">Tendo o Array e k como argumentos
+Calcule o Range a partir dos limites do Array
+Crie k Buckets vazios
+</code></pre>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Faça a implementação em python do pseudocódigo acima.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-py">minimum=min(array)
+maximum=max(array)
+
+r=ceil((maximum-minimum)/k)
+buckets=[]
+
+for i in range(k):
+    buckets.append([])
+</code></pre>
+</details>
+</blockquote>
+<p>Agora é preciso iterar entre os elementos para alocá-lo no bucket certo. Um jeito de fazer isso é iterar em cada bucket e verificar se o elemento pertence a ele ou não a partir de seu índice. No entanto, esse processo teria um <em>for</em> dentro de outro, dando uma complexidade quadrática em todos os casos. Dessa forma, é necessário implementar a atribuição dos elementos em cada <em>bucket</em> com apenas uma iteração.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Qual iteração e estratégia parece fazer sentido nesse caso?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Já que todos os elementos devem ser distribuídos, fica claro que uma interação no array é necessário. A estratégia ideal é: a partir do valor do elemento, descobrir o índice do bucket que ele deve ser inserido e dar <em>append</em>.</p>
+</details>
+</blockquote>
+<p>O problema agora é descobrir o índice do bucket a partir do elemento. Nesse contexto, o valor do <em>range</em> ajuda a definir esse cálculo pois ele define o “tamanho” de cada bucket.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Sabendo que o índice do <em>bucket</em> é como uma contagem, que operação com o <em>range</em> faria sentido nesse caso?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Ao dividir o valor do elemento pelo <em>range</em>, o resultado é, basicamente, quantos <em>ranges</em> cabem no elemento. No entanto, isso é verdadeiro se a origem está em 0, e se não estiver é necessário subtrair o valor mínimo.</p>
+</details>
+</blockquote>
+<p>Abaixo segue a explicação visual do cálculo do índice:</p>
+<div class="animation"><img class="frame" src="img/range/expl_range.png" alt="1"></div>
+<p>Considerando o exemplo acima, a divisão daria um valor aproximado de 1,6. O índice do bucket do V deve ser 1, pois ele deve estar no segundo bucket. Dessa forma, basta arredondar para baixo o valor da divisão.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Faça a implementação em python da distribuição dos elementos nos buckets.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-py">for v in array:
+    indice=floor((v-minimum)/r)
+    buckets[indice].append(v)
+</code></pre>
+</details>
+</blockquote>
+<p>A lista <code class="language-py">buckets</code> agora possui k listas com os elementos da lista alocados. Basta iterar entre cada <em>bucket</em>, ordenar cada um e concatenar os <em>buckets</em>.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Implemente o <em>Bucket Sort</em> em Python. Não é necessário se preocupar com a ordenação interna dos buckets, foque nas operações discutidas acima. Para representar a ordenação interna, pode usar a função <em>sort()</em>, nativa do python.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-py">def bucket_sort(array, k):
+    minimum=min(array)
+    maximum=max(array)
+
+    r=ceil((maximum-minimum)/k)
+    buckets=[]
+
+    for i in range(k):
+        buckets.append([])
+
+    for v in array:
+        indice=floor((v-minimum)/r)
+        buckets[indice].append(v)
+    
+    s=[]
+    for b in buckets:
+        s.append(sorted(b))  #Note que a ordenação dentro do bucket é feito pelo
+                             #insertion sort, mas isso será discutido em breve.
+
+    lista_final=[]
+    for i in s:
+        lista_final+=i
+
+    return lista_final
+</code></pre>
+</details>
+</blockquote>
+<p>No papel, parece estar funcionando corretamente. No entanto, imagine que o usuário está ordenando com 3 <em>buckets</em>, Vmax=13 e Vmin=1. Nesse caso, com a conta do Range dando 4, o último <em>bucket</em> irá cobrir de 8 a 11. É necessário um último <em>bucket</em> para cobrir o elemento 13, principalmente pela aproximação pra cima que foi feita na conta do Range.</p>
+<p>O jeito mais fácil de fazer isso é fazer uma verificação do valor do índice dentro da iteração. Se o índice passa o tamanho da lista, será necessário criar um Bucket depois de todos os outros, para alocar essas exceções.</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Tente implementar essa correção descrita acima na iteração dos elementos.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-py">for v in array:
+    indice=floor((v-minimum)/r)
+    if indice==len(buckets):
+        buckets.append([v])
+    else:
+        buckets[indice].append(v)
+</code></pre>
+</details>
+</blockquote>
+<p>Sendo assim, segue a implementação completa do <em>Bucket Sort</em>.</p>
+<pre><code class="language-py">def bucket_sort(array, k):
+    minimum=min(array)
+    maximum=max(array)
+
+    r=ceil((maximum-minimum)/k)
+    buckets=[]
+
+    for i in range(k):
+        buckets.append([])
+
+    for v in array:
+        indice=floor((v-minimum)/r)
+        if indice==len(buckets):
+            buckets.append([v])
+        else:
+            buckets[indice].append(v)
+    
+    s=[]
+    for b in buckets:
+        s.append(sorted(b))
+
+    lista_final=[]
+    for i in s:
+        lista_final+=i
+
+    return lista_final
+</code></pre>
+<h2>Complexidade</h2>
+<p>De forma sucinta, o algortimo do <em>bucket sort</em> em questão pode ser subdividido em 3 tarefas. Com um vetor de <em>n</em> elementos temos que:</p>
+<p>1. Subdividir o vetor original em <em>k buckets</em>, sendo a quantidade de elementos em cada bucket igual a \((\frac{n}{k})\)</p>
+<p>2. Ordenar os valores no interior de cada <em>bucket</em> utilizando <em>insertion sort</em>.</p>
+<p>3. Concatenar os buckets já ordenados em um vetor.</p>
+<p>A partir do custo, ou seja, da complexidade de cada uma dessas etapas, podemos determinar a complexidade total do <em>bucket sort</em>. Vamos começar analisando a primeira tarefa. O código a seguir é referente a ela, e foi extraído do código do <em>bucket sort</em> disponibilizado anteriormente.</p>
+<pre><code class="language-py">    for v in array:
+        indice=floor((v-minimum)/r)
+        if indice==len(buckets):
+            buckets.append([v])
+        else:
+            buckets[indice].append(v)
+</code></pre>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Tente deduzir a complexidade dessa operação a partir do código.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Esse <em>for</em> percorre o array original inteiro apenas uma vez. Portanto, como temos <em>n</em> elementos no array, a complexidade dessa tarefa será \(O(n)\).</p>
+</details>
+</blockquote>
+<p>Como o <em>bucket sort</em> deve principalmente ser usado com distribuições uniformes, consideraremos uma array distribuído de tal maneira para determinar a complexidade da segunda etapa.</p>
+<p>Partindo do pressuposto que utilizaremos o <em>insertion sort</em> como algoritmo interno, temos que o caso médio do <em>insertion</em> tem complexidade \(O(n^2)\). No entanto, vale ressaltar que esse algortimo é especialmente efetivo em vetores pequenos e/ou crescentes. Assim o <em>bucket sort</em> tenta explorar essas características do <em>insertion</em> para que o caso médio de complexidade não seja \(O(n^2)\).</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Denominando <em>k</em> a quantidade de <em>buckets</em> utilizados no algoritmo e <em>n</em> o número total de elementos do vetor original, determine a complexidade do <em>insertion sort</em> no interior de cada bucket.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Partindo da complexidade \(O(n^2)\), temos que a quantidade de elementos a serem ordenados pelo <em>insertion</em> em cada <em>bucket</em> será \(O(\frac{n}{k})^2\).</p>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Após determinar a complexidade por <em>bucket</em>, tente agora inserir a quantidade total de buckets do algortimo nessa complexidade.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Como temos <em>k</em> buckets para rodar o <em>insertion sort</em>, a complexidade será de \(O(\frac{n^2}{k^2} \cdot k)\), que será igual a \(O(\frac{n^2}{k})\).</p>
+</details>
+</blockquote>
+<p>Mesmo depois dessas observações, você pode ter percebido que a complexidade dessa etapa do algoritmo continua sendo \(O(n^2)\). Sim, pelas regras de simplificação da Notação O, nada mudou. Contudo, nessas operações que reside a magia do <em>bucket sort</em>.</p>
+<p>\[O(\frac{n^2}{k})\]</p>
+<p>Vamos fazer alguns experimentos com a complexidade acima…</p>
+<p>Sendo <em>k</em> o número de <em>buckets</em> e <em>n</em> o número total de elementos do vetor original, vamos supor que em uma implementação do algoritmo optemos por colocar todos os elementos em apenas um <em>bucket</em>. Nesse caso, <em>k</em> será igual a 1, fazendo com que a complexidade resultante seja \(O(n^2)\). Esse é exatamente o <strong>pior caso</strong> do <em>bucket sort</em>. Quanto temos um ou poucos <em>buckets</em>, teremos mais elementos por <em>bucket</em> para o <em>insertion</em> ordenar, o que não é desejável e eficiente.</p>
+<p>Vamos tentar algo diferente…</p>
+<blockquote class="question">
+<p>Checkpoint</p>
+<p>Calcule a complexidade de \(O(\frac{n^2}{k})\) quanto temos muitos <em>buckets</em>, ou seja, quando \(k \approx n\).</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Quando \(k \approx n\), a complexidade dessa etapa será \(O(\frac{n^2}{n})\). Nesse caso, observamos que quanto maior o número de <em>buckets</em>, mais a complexidade se comporta linearmente. Assim, acabamos de deduzir o <strong>melhor caso</strong> do algoritmo.</p>
+</details>
+</blockquote>
+<p>Com a complexidade da segunda etapa definida, resta apenas concatená-los na ordem correta, sendo essa a terceira etapa. Isso ocorrerá em tempo proporcional ao número de <em>buckets</em>, tendo complexidade \(O(k)\). Assim, teremos que a complexidade final do algoritmo será a soma das três etapas:</p>
+<p>\[O(n + \frac{n^2}{k} + k)\]</p>
+<h2>Tabela de complexidade</h2>
+<figure class="table"><table>
+<thead>
+<tr>
+<th></th>
+<th>Complexidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pior caso</td>
+<td>\(O(n^2)\)</td>
+</tr>
+<tr>
+<td>Caso médio</td>
+<td>\(O(n + \frac{n^2}{k} + k)\)</td>
+</tr>
+<tr>
+<td>Melhor caso</td>
+<td>\(O(n)\) para \(k \approx n\)</td>
+</tr>
+<tr>
+<td>Memória</td>
+<td>\(O(n+k)\)</td>
+</tr>
+</tbody>
+</table></figure>
+<h2>Atividade Extra</h2>
+<blockquote class="question">
+<p>Fake Quiz</p>
+<p>Considere o vetor abaixo.</p>
+<pre><code class="language-py">array = [13,2,23,78,65,99,42,0,55]
+</code></pre>
+<p>Simule o comportamento da lista <code class="language-py">buckets</code> ao fim de cada iteração sabendo que k=4.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="terminal nohighlight">[[13], [], [], []]
+[[13, 2], [], [], []]
+[[13, 2, 23], [], [], []]
+[[13, 2, 23], [], [], [78]]
+[[13, 2, 23], [], [65], [78]]
+[[13, 2, 23], [], [65], [78, 99]]
+[[13, 2, 23], [42], [65], [78, 99]]
+[[13, 2, 23, 0], [42], [65], [78, 99]]
+[[13, 2, 23, 0], [42], [65, 55], [78, 99]]
+</code></pre>
+</details>
+</blockquote>
+
+
+            </main>
+            <footer>
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                    <img alt="CC BY-SA 4.0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" title="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+                </a>
+                © 2022 Marcelo Hashimoto
+            </footer>
+        </div>
+    </body>
+</html>
