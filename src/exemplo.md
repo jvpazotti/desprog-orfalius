@@ -67,7 +67,7 @@ O valor máximo do vetor corresponde ao inteiro que, ao ser dividido, resultará
 
 No entanto, um vetor a ser ordenado não necessariamente começa de 0 e, por isso, o cálculo do Range estará equivocado.
 
-??? Checkpoint
+??? Atividade
 
 Sabendo que um vetor começa em -5 e acaba em 13, qual o módulo do tamanho do vetor? E se começar em 2 e ir até 13?
 
@@ -91,7 +91,7 @@ $$r = \frac{Vmax-Vmin}{k}$$
 
 Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os *buckets*, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.
 
-??? Checkpoint
+??? Atividade
 
 Quanto será o Range de um *Bucket* se uma lista vai de 1 a 12 e o código tem 3 Buckets?
 
@@ -155,6 +155,16 @@ Abaixo segue a explicação visual do cálculo do índice:
 :range
 
 Considerando o exemplo acima, a divisão daria um valor aproximado de 1,6. O índice do bucket do V deve ser 1, pois ele deve estar no segundo bucket. Dessa forma, basta arredondar para baixo o valor da divisão.
+
+??? Atividade
+
+Considerando o vetor [2, 8, 9, 4, 3, -1, 4], qual seria o índice do elemento 3 sabendo que existem 2 buckets?
+
+::: Gabarito
+Sabendo que o cálculo do *Range* resulta em 5, basta calcular (3-(-1))/5 e arredondar para baixo. O *Bucket* adequado para o elemento é o de índice 0.
+:::
+
+???
 
 ??? Checkpoint
 

@@ -71,7 +71,7 @@ deixando os NAIPES de forma crescente.
 </blockquote>
 <p>No entanto, um vetor a ser ordenado não necessariamente começa de 0 e, por isso, o cálculo do Range estará equivocado.</p>
 <blockquote class="question">
-<p>Checkpoint</p>
+<p>Atividade</p>
 <p>Sabendo que um vetor começa em -5 e acaba em 13, qual o módulo do tamanho do vetor? E se começar em 2 e ir até 13?</p>
 <details class="answer">
 <summary>Gabarito</summary>
@@ -89,7 +89,7 @@ deixando os NAIPES de forma crescente.
 </blockquote>
 <p>Já que o Array será de inteiros, faz sentido ter apenas Ranges inteiros para os <em>buckets</em>, já que nunca haverá valores entre os inteiros que devem ser considerados ou não. Por isso, a divisão acima pode ser corrigida de dois jeitos: arrendondando o valor pra cima ou pra baixo. Se for arredondado pra cima, o Range será maior e, por isso, foi a escolha da implementação.</p>
 <blockquote class="question">
-<p>Checkpoint</p>
+<p>Atividade</p>
 <p>Quanto será o Range de um <em>Bucket</em> se uma lista vai de 1 a 12 e o código tem 3 Buckets?</p>
 <details class="answer">
 <summary>Gabarito</summary>
@@ -138,6 +138,14 @@ for i in range(k):
 <p>Abaixo segue a explicação visual do cálculo do índice:</p>
 <div class="animation"><img class="frame" src="img/range/expl_range.png" alt="1"></div>
 <p>Considerando o exemplo acima, a divisão daria um valor aproximado de 1,6. O índice do bucket do V deve ser 1, pois ele deve estar no segundo bucket. Dessa forma, basta arredondar para baixo o valor da divisão.</p>
+<blockquote class="question">
+<p>Atividade</p>
+<p>Considerando o vetor [2, 8, 9, 4, 3, -1, 4], qual seria o índice do elemento 3 sabendo que existem 2 buckets?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Sabendo que o cálculo do <em>Range</em> resulta em 5, basta calcular (3-(-1))/5 e arredondar para baixo. O <em>Bucket</em> adequado para o elemento é o de índice 0.</p>
+</details>
+</blockquote>
 <blockquote class="question">
 <p>Checkpoint</p>
 <p>Faça a implementação em python da distribuição dos elementos nos buckets.</p>
